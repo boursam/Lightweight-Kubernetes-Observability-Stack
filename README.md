@@ -1,9 +1,9 @@
 # Lightweight-Kubernetes-Observability-Stack
 
 ![K3s](https://img.shields.io/badge/K3s-Kubernetes-FFC61C?style=flat-square&logo=k3s&logoColor=black)
-![Helm](https://img.shields.io/badge/Helm-Charts-0F1689?style=flat-square&logo=helm&logoColor=white)
-![Prometheus](https://img.shields.io/badge/Prometheus-Metrics-E6522C?style=flat-square&logo=prometheus&logoColor=white)
-![Grafana](https://img.shields.io/badge/Grafana-Dashboards-F46800?style=flat-square&logo=grafana&logoColor=white)
+![Helm](https://img.shields.io/badge/Helm-Charts-277A9F?style=flat-square&logo=helm&logoColor=white)
+![Prometheus](https://img.shields.io/badge/Prometheus-Metrics-DA4E31?style=flat-square&logo=prometheus&logoColor=white)
+![Grafana](https://img.shields.io/badge/Grafana-Dashboards-2E3440?style=flat-square&logo=grafana&logoColor=F8B600)
 
 This project represent a lightweight, self-hosted Kubernetes observability platform built on **k3s**, deployed and managed via **Helm**, with **Prometheus** for metrics collection and **Grafana** from visualization and dashboarding. It's designed for environment where you need production-style observability without the overhead of a full Kubernetes distribution.
 
