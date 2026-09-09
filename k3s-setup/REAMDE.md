@@ -22,7 +22,7 @@ This installs k3s as a systemd service and starts it automatically. Check status
 sudo systemctl status k3s
 ```
 
-So we verify that the node is ready, we execute the following command :
+So we verify that the node is ready, we execute the following command:
 
 ```bash
 sudo k3s kubectl get nodes
@@ -32,3 +32,21 @@ sudo k3s kubectl get nodes
 [NOTE] For the setup, i used only one node, which will act as control node and worker node at the same time.
 ```
 
+### 4. Configure 'kubectl' and 'helm' for Local Use
+
+In order to use in a non root state, by our user, copy the kubeconfig to our local machine, or user profile:
+
+```bash
+mkdir -p ~/.kube
+sudo cp /etc/rancher/k3s/k3s.yaml ~/.kube/config
+sudo chown $(id -u):$(id -g) ~/.kube/config
+```
+
+Then we need to verify the access:
+```bash
+kubectl get nodes
+kubectl get pods -A
+```
+
+---
+And here we ended the configuration of k3s :)
