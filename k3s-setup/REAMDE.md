@@ -1,4 +1,6 @@
-## K3S Setup
+# K3S Setup
+---
+![K3s](https://img.shields.io/badge/K3s-Kubernetes-FFC61C?style=flat-square&logo=k3s&logoColor=black)
 
 K3s is a fully certified, lightweight Kubernetes distribution, designed by Rancher for resource-constrained environments, edge computing, IoT, and local development.
 
