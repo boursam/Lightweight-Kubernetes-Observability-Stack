@@ -3,11 +3,15 @@
 
 K3s is a fully certified, lightweight Kubernetes distribution, designed by Rancher for resource-constrained environments, edge computing, IoT, and local development.
 
+---
+
 ### 1. System Requirements
 For requirements, i've worked with min
 - 2+ vCPUs, 2GB+ RAM (Using 4 vCPUs, and 4GB RAM)
 - Ubuntu 20.04+ (Using 24.04 LTS)
 - +20 G of Storage (Using 30GB)
+
+--- 
 
 ### 2. Install the Server Node
 
@@ -32,6 +36,8 @@ sudo k3s kubectl get nodes
 ```bash
 [NOTE] For the setup, i used only one node, which will act as control node and worker node at the same time.
 ```
+
+---
 
 ### 4. Configure 'kubectl' and 'helm' for Local Use
 
