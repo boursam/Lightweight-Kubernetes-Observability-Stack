@@ -5,14 +5,85 @@
 ![Prometheus](https://img.shields.io/badge/Prometheus-Metrics-DA4E31?style=flat-square&logo=prometheus&logoColor=white)
 ![Grafana](https://img.shields.io/badge/Grafana-Dashboards-2E3440?style=flat-square&logo=grafana&logoColor=F8B600)
 
-This project represent a lightweight, self-hosted Kubernetes observability platform built on **k3s**, deployed and managed via **Helm**, with **Prometheus** for metrics collection and **Grafana** from visualization and dashboarding. It's designed for environment where you need production-style observability without the overhead of a full Kubernetes distribution.
+This project is a lightweight, self-hosted Kubernetes observability platform built on **k3s**, deployed and managed via **Helm**, with **Prometheus** for metrics collection and **Grafana** for visualization and dashboarding. It's designed for environments where you need production-style observability without the overhead of running a full Kubernetes distribution.
+
+---
 
 ## Stack
-- **[k3s](https://k3s.io/)** - Lightweight, certified Kubernetes distribution
-- **[Helm](https://helm.sh/)** - Kubernetes package manager for deploying and managing charts
-- **[Prometheus](https://prometheus.io/)** - Metrics collection, storage, and alerting
-- **[Grafana](https://grafana.com/)** - Dashboards and visualization
+
+| Component | Role |
+|---|---|
+| **[k3s](https://k3s.io/)** | Lightweight, certified Kubernetes distribution |
+| **[Helm](https://helm.sh/)** | Kubernetes package manager for deploying and managing charts |
+| **[Prometheus](https://prometheus.io/)** | Metrics collection, storage, and alerting |
+| **[Grafana](https://grafana.com/)** | Dashboards and visualization |
+
+```
+┌─────────────────────────────────────────────┐
+│                  k3s node                    │
+│                                               │
+│   ┌───────────────────────────────────────┐  │
+│   │   kube-prometheus-stack (Helm chart)   │  │
+│   │                                         │  │
+│   │   ┌────────────┐      ┌─────────────┐  │  │
+│   │   │ Prometheus │◄─────┤   Grafana   │  │  │
+│   │   └─────┬──────┘      └─────────────┘  │  │
+│   │         │  scrapes                     │  │
+│   │   ┌─────┴──────┐  ┌──────────────────┐ │  │
+│   │   │ kube-state-│  │ node-exporter     │ │  │
+│   │   │ metrics    │  │ (per node)        │ │  │
+│   │   └────────────┘  └──────────────────┘ │  │
+│   └───────────────────────────────────────┘  │
+└─────────────────────────────────────────────┘
+```
+
+---
 
 ## Prerequisites
-- A Linux host (or VM) for k3s node(s).
-- Sufficient permissions to install and run what we need.
+
+- A Linux host (or VM) to run the k3s node — see [System Requirements](#system-requirements) below.
+- `sudo`/root access to install k3s and system packages.
+- Basic familiarity with `kubectl` and the command line.
+
+### System Requirements
+
+| Resource | Minimum       |
+|----------|---------------|
+| CPU      | 2+ vCPUs      |
+| RAM      | 2GB+          |
+| Storage  | 20GB+         |
+| OS       | Ubuntu 20.04+ |
+
+---
+
+## Setup Guide
+
+Follow these in order — each builds on the previous one:
+
+1. **[K3s Setup](./k3s-README.md)** — install and configure the single-node k3s cluster, and set up `kubectl`/`helm` for local use.
+2. **[Helm / Prometheus / Grafana Setup](./README.md)** — install Helm, add the `prometheus-community` repo, and deploy `kube-prometheus-stack` onto the cluster.
+
+Once both are done, you'll have a running Prometheus + Grafana stack, reachable via `kubectl port-forward` (see the Helm guide for exact commands and default credentials).
+
+---
+
+## Repository Structure
+
+```
+.
+├── README.md                # this file — project overview
+├── k3s/
+│   └── README.md             # k3s installation and local kubectl/helm setup
+└── helm/
+    └── README.md             # Helm install + kube-prometheus-stack deployment
+```
+
+> Adjust the links in [Setup Guide](#setup-guide) above to match wherever these files actually live in your repo (e.g. `k3s/README.md`, `helm/README.md`, or flat filenames like `k3s-README.md`).
+
+---
+
+## Notes
+
+- This stack targets a **single-node** k3s setup (control-plane + worker combined) — fine for local dev, homelab, or edge use cases. For multi-node or HA, k3s supports embedded etcd and additional server/agent nodes; that's outside the scope of this project.
+- `kube-prometheus-stack` bundles Prometheus, Grafana, Alertmanager, node-exporter, and kube-state-metrics in one chart, with Grafana pre-wired to Prometheus as a datasource — no manual data source configuration needed.
+- For anything exposed beyond `kubectl port-forward` (e.g. via Ingress or a `LoadBalancer` service), make sure to set real credentials and restrict network access accordingly.
