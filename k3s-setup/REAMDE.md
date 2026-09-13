@@ -16,6 +16,7 @@ Minimum requirements, and what I actually used:
 | Storage  | 20GB+        | 30GB            |
 | OS       | Ubuntu 20.04+| Ubuntu 24.04 LTS|
 
+
 > [!NOTE]
 > For this setup I used a single node, which acts as both control-plane and worker at the same time.
 
@@ -89,7 +90,7 @@ kubectl get nodes
 kubectl get pods -A
 ```
 
-Since Helm reads the same `~/.kube/config` (or `KUBECONFIG`), it now works out of the box too — no extra setup needed.
+Since Helm reads the same `~/.kube/config` (or `KUBECONFIG`), it now works out of the box too, no extra setup needed.
 
 ---
 
@@ -103,4 +104,4 @@ sudo /usr/local/bin/k3s-uninstall.sh
 
 ---
 
-And that's it — k3s is installed and ready for workloads :)
+And that's it, k3s is installed and ready for workloads :)
