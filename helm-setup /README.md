@@ -90,4 +90,4 @@ kubectl port-forward -n monitoring svc/prometheus-stack-prometheus 3000:Forwardi
 kubectl port-forward -n monitoring svc/prometheus-stack-kube-prom-prometheus 9090:9090 --address 0.0.0.0
 ```
 
-Access the WEB UI with http://<host-IP>:<PORT> and voilà !
+Access the WEB UI with http://host-ip-addr:port and voilà !
