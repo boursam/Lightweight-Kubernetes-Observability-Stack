@@ -84,7 +84,7 @@ prometheus-stack-prometheus-node-exporter-l5khg          1/1     Running   0    
 
 ## 4. Accessing Grafana and Prometheus
 
-To access the WEB UI of Grafana and Prometheus, i used the port forwarding technique. The release name is `prometheus-stack`, so that's the prefix on every service name — Grafana and Prometheus each get their own service:
+To access the WEB UI of Grafana and Prometheus, i used the port forwarding technique. The release name is `prometheus-stack`, so that's the prefix on every service name, Grafana and Prometheus each get their own service:
 
 ```bash
 # Grafana (service listens on port 80, container on 3000)
