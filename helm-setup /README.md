@@ -23,9 +23,9 @@ sudo apt-get update
 sudo apt-get install helm
 ```
 
- Then we check if everything is correctly installed, we execute:
+Then we check if everything is correctly installed, we execute:
 
- ```bash
+```bash
 helm -v
 ```
 
@@ -50,9 +50,8 @@ helm search repo -l prometheus-community/kube-prometheus-stack | head -3
 For the one used, it's the version 89.2.2, i used the default values yaml file, to see the values file, i used this command:
 
 ```bash
-helm show values prometheus-community/kube-prometheus-stack --version 89.2.2 > values.yml 
+helm show values prometheus-community/kube-prometheus-stack --version 89.2.2 > values.yml
 ```
-
 
 ## 3. Installation
 To install the chart, i used the helm upgrade command, we need to set the correct version correctly:
@@ -67,7 +66,6 @@ helm upgrade --install \
 ```
 
 Afterwards, we wait for image to be pulled up, and for containers to start, till they become in a 'Running' state:
-
 ```bash
 kubectl get pods -n monitoring
 ```
@@ -82,18 +80,39 @@ prometheus-stack-grafana-787798b6df-swwhv                2/3     Running   0    
 prometheus-stack-kube-prom-operator-6c7dfd94bc-kfq86     1/1     Running   0            72s
 prometheus-stack-kube-state-metrics-5c75657748-bmgm5     1/1     Running   0            72s
 prometheus-stack-prometheus-node-exporter-l5khg          1/1     Running   0            69s
-
 ```
 
-To access via WEB UI of Grafana and Prometheus, i used the port forwarding technique:
+## 4. Accessing Grafana and Prometheus
+
+To access the WEB UI of Grafana and Prometheus, i used the port forwarding technique. The release name is `prometheus-stack`, so that's the prefix on every service name — Grafana and Prometheus each get their own service:
+
 ```bash
-kubectl port-forward -n monitoring svc/prometheus-stack-prometheus 3000:Forwarding from 0.0.0.0:3000 -> 3000
+# Grafana (service listens on port 80, container on 3000)
+kubectl port-forward -n monitoring svc/prometheus-stack-grafana 3000:80 --address 0.0.0.0
+
+# Prometheus
 kubectl port-forward -n monitoring svc/prometheus-stack-kube-prom-prometheus 9090:9090 --address 0.0.0.0
 ```
 
-Access the WEB UI with http://host-ip-addr:port and voilà !
+Grafana needs a login. `kube-prometheus-stack` generates an admin password by default (unless you set one in `values.yml`) — grab it with:
 
-[NOTE] To retrieve the password of the grafana admin user, run simply this command below:
 ```bash
 kubectl get secret prometheus-stack-grafana -n monitoring -o jsonpath="{.data.admin-password}" | base64 --decode
 ```
+
+Username is `admin`.
+
+Access the WEB UI with `http://<host-IP>:<PORT>` and voilà !
+
+- Grafana: `http://<host-IP>:3000`
+- Prometheus: `http://<host-IP>:9090`
+
+## Notes
+
+- The chart already wires Grafana to Prometheus as a default datasource and ships pre-built dashboards, so there's nothing extra to configure there.
+- To upgrade later, re-run `helm search repo -l prometheus-community/kube-prometheus-stack` for the newest version, regenerate `values.yml` against it, then re-run the same `helm upgrade --install` command with the new `--version`.
+- To uninstall:
+  ```bash
+  helm uninstall prometheus-stack -n monitoring
+  kubectl delete namespace monitoring
+  ```
