@@ -18,23 +18,24 @@ This project is a lightweight, self-hosted Kubernetes observability platform bui
 | **[Prometheus](https://prometheus.io/)** | Metrics collection, storage, and alerting |
 | **[Grafana](https://grafana.com/)** | Dashboards and visualization |
 
+## Architecture 
 ```
-┌─────────────────────────────────────────────┐
-│                  k3s node                    │
-│                                               │
-│   ┌───────────────────────────────────────┐  │
-│   │   kube-prometheus-stack (Helm chart)   │  │
-│   │                                         │  │
-│   │   ┌────────────┐      ┌─────────────┐  │  │
-│   │   │ Prometheus │◄─────┤   Grafana   │  │  │
-│   │   └─────┬──────┘      └─────────────┘  │  │
-│   │         │  scrapes                     │  │
-│   │   ┌─────┴──────┐  ┌──────────────────┐ │  │
-│   │   │ kube-state-│  │ node-exporter     │ │  │
-│   │   │ metrics    │  │ (per node)        │ │  │
-│   │   └────────────┘  └──────────────────┘ │  │
-│   └───────────────────────────────────────┘  │
-└─────────────────────────────────────────────┘
+┌────────────────────────────────────────────────┐
+│                  k3s node                      │
+│                                                │
+│   ┌────────────────────────────────────────┐   │
+│   │   kube-prometheus-stack (Helm chart)   │   │
+│   │                                        │   │
+│   │   ┌────────────┐      ┌─────────────┐  │   │
+│   │   │ Prometheus │◄─────┤   Grafana   │  │   │
+│   │   └─────┬──────┘      └─────────────┘  │   │
+│   │         │  scrapes                     │   │
+│   │   ┌─────┴──────┐  ┌──────────────────┐ │   │
+│   │   │ kube-state-│  │ node-exporter    │ │   │
+│   │   │ metrics    │  │ (per node)       │ │   │
+│   │   └────────────┘  └──────────────────┘ │   │
+│   └────────────────────────────────────────┘   │
+└────────────────────────────────────────────────┘
 ```
 
 ---
@@ -82,8 +83,7 @@ Once both are done, you'll have a running Prometheus + Grafana stack, reachable 
 
 ---
 
-## Notes
-
-- This stack targets a **single-node** k3s setup (control-plane + worker combined) — fine for local dev, homelab, or edge use cases. For multi-node or HA, k3s supports embedded etcd and additional server/agent nodes; that's outside the scope of this project.
-- `kube-prometheus-stack` bundles Prometheus, Grafana, Alertmanager, node-exporter, and kube-state-metrics in one chart, with Grafana pre-wired to Prometheus as a datasource — no manual data source configuration needed.
-- For anything exposed beyond `kubectl port-forward` (e.g. via Ingress or a `LoadBalancer` service), make sure to set real credentials and restrict network access accordingly.
+> [!NOTE]
+> This stack targets a **single-node** k3s setup (control-plane + worker combined) — fine for local dev, homelab, or edge use cases. For multi-node or HA, k3s supports embedded etcd and additional server/agent nodes; that's outside the scope of this project.
+>`kube-prometheus-stack` bundles Prometheus, Grafana, Alertmanager, node-exporter, and kube-state-metrics in one chart, with Grafana pre-wired to Prometheus as a datasource >no manual data source configuration needed.
+>For anything exposed beyond `kubectl port-forward` (e.g. via Ingress or a `LoadBalancer` service), make sure to set real credentials and restrict network access accordingly.
