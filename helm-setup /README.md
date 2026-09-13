@@ -67,6 +67,7 @@ helm upgrade --install \
 ```
 
 Afterwards, we wait for image to be pulled up, and for containers to start, till they become in a 'Running' state:
+
 ```bash
 kubectl get pods -n monitoring
 ```
@@ -91,3 +92,8 @@ kubectl port-forward -n monitoring svc/prometheus-stack-kube-prom-prometheus 909
 ```
 
 Access the WEB UI with http://host-ip-addr:port and voilà !
+
+[NOTE] To retrieve the password of the grafana admin user, run simply this command below:
+```bash
+kubectl get secret prometheus-stack-grafana -n monitoring -o jsonpath="{.data.admin-password}" | base64 --decode
+```
