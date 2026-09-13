@@ -85,4 +85,5 @@ Once both are done, you'll have a running Prometheus + Grafana stack, reachable 
 
 > [!NOTE]
 > This stack targets a **single-node** k3s setup (control-plane + worker combined).
-> `kube-prometheus-stack` bundles Prometheus, Grafana, Alertmanager, node-exporter, and kube-state-metrics in one chart, with Grafana pre-wired to Prometheus as a datasource > no manual data source configuration needed.
+> `kube-prometheus-stack` bundles Prometheus, Grafana, Alertmanager, node-exporter, and kube-state-metrics in one chart, with Grafana pre-wired to Prometheus as a datasource
+> no manual data source configuration needed.
