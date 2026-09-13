@@ -107,12 +107,11 @@ Access the WEB UI with `http://<host-IP>:<PORT>` and voilà !
 - Grafana: `http://<host-IP>:3000`
 - Prometheus: `http://<host-IP>:9090`
 
-## Notes
-
-- The chart already wires Grafana to Prometheus as a default datasource and ships pre-built dashboards, so there's nothing extra to configure there.
-- To upgrade later, re-run `helm search repo -l prometheus-community/kube-prometheus-stack` for the newest version, regenerate `values.yml` against it, then re-run the same `helm upgrade --install` command with the new `--version`.
-- To uninstall:
-  ```bash
-  helm uninstall prometheus-stack -n monitoring
-  kubectl delete namespace monitoring
-  ```
+> [!NOTE]
+> - The chart already wires Grafana to Prometheus as a default datasource and ships pre-built dashboards, so there's nothing extra to configure there.
+> - To upgrade later, re-run `helm search repo -l prometheus-community/kube-prometheus-stack` for the newest version, regenerate `values.yml` against it, then re-run the same `helm upgrade --install` command with the new `--version`.
+> - To uninstall:
+>  ```bash
+>  helm uninstall prometheus-stack -n monitoring
+>  kubectl delete namespace monitoring
+>  ```
