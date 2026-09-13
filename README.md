@@ -61,8 +61,8 @@ This project is a lightweight, self-hosted Kubernetes observability platform bui
 
 Follow these in order — each builds on the previous one:
 
-1. **[K3s Setup](./k3s-README.md)** — install and configure the single-node k3s cluster, and set up `kubectl`/`helm` for local use.
-2. **[Helm / Prometheus / Grafana Setup](./README.md)** — install Helm, add the `prometheus-community` repo, and deploy `kube-prometheus-stack` onto the cluster.
+1. **[K3s Setup](./k3s-README.md)** : install and configure the single-node k3s cluster, and set up `kubectl`/`helm` for local use.
+2. **[Helm / Prometheus / Grafana Setup](./README.md)** : install Helm, add the `prometheus-community` repo, and deploy `kube-prometheus-stack` onto the cluster.
 
 Once both are done, you'll have a running Prometheus + Grafana stack, reachable via `kubectl port-forward` (see the Helm guide for exact commands and default credentials).
 
